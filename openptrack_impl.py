@@ -2,7 +2,9 @@
 # Sept 13, 2015
 # jburke@ucla.edu 
 
+from subprocess import call
 import socket, json
+import os
 
 port = 21234
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -19,3 +21,7 @@ while 1:
         person_pose = tracking_update['pose_tracks'][0]
         #print( json.dumps(json.loads(data), sort_keys=True, indent=4, separators=(',', ': ') )  )
         print( "id:"+str(person_pose['id'])+", x:"+str(person_pose['joints']['HEAD']['x'])+", y:"+str(person_pose['joints']['HEAD']['y'])+", pose: "+person_pose['predicted_pose_name'])
+        if person_pose['predicted_pose_name'] == "right_arm_up":
+            print("DETECTED")
+            call(["node move_to_x_y.js"],"")
+            break

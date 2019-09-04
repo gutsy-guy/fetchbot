@@ -148,7 +148,7 @@ var goto = (x,y) => {
     add_mission_to_queue()
 }
 
-goto(13,16)
+goto(12.063,15.747)
 
 /* govlab locations
 "orientation": 0.8326653838157654, 
