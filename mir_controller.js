@@ -75,6 +75,27 @@ getJSON = function(options, onResult, onError)
     req.end();
 };
 
+deleteJSON = function(options, onResult, onError)
+{
+    console.log("getJSON", options.host, options.path, ':', options.port, options);
+    var port = options.port == 443 ? https : http;
+    var req = port.request(options, function(res)
+    {
+        var output = '';
+        console.log(options.host + ': ' + res.statusCode);
+        res.setEncoding('utf8');
+        res.on('data', function (chunk) {
+            output += chunk;
+        });
+        res.on('end', function() {
+            console.log(output);
+            onResult(res.statusCode);
+        });
+    });
+    req.on('error', onError);
+    req.end();
+}
+
 var create_options = (absoulte_path, request_type = 'GET',parameters) => {
    let option = {
        host: HOST,
@@ -112,7 +133,7 @@ var move_relative_position = function(){
 }
 
 var move_to_position  = function(x, y){
-    let path = URL + "/missions/" + mission_id+ '/actions'
+    let path = URL + "missions/" + mission_id+ '/actions'
     let parameters = 
         {
             "action_type": "move_to_position",
@@ -127,11 +148,16 @@ var move_to_position  = function(x, y){
             ]
         }
 
+    console.log("Adding move action to test mission")
     let options = create_options(path, 'POST', parameters)
-    postJSON(options,success_handler, error_handler)
+    let on_success = (status, obj) => {
+        console.log("Move action added, adding test mission to queue")
+        add_test_mission_to_queue()
+    }
+    postJSON(options,on_success, error_handler)
 }
 
-var add_mission_to_queue = function() {
+var add_test_mission_to_queue = function() {
     var path = URL+'mission_queue'
     var parameters = {
         "mission_id": "3f9074ba-bf29-11e9-b263-94c691a73681",
@@ -141,17 +167,91 @@ var add_mission_to_queue = function() {
     postJSON(options,success_handler, error_handler)
 }
 
-//delete other actions in mission, add new action and add that mission into miss que
-var goto = (x,y) => {
-    move_to_position(x,y)
-    // move_relative_position()
-    add_mission_to_queue()
+var add_mission_to_queue = function(mission_guid) {
+    var path = URL+'mission_queue'
+    var parameters = {
+        "mission_id": mission_guid,
+    }
+
+    let options = create_options(path, 'POST', parameters)
+    postJSON(options,success_handler, error_handler)
 }
 
-goto(12.063,15.747)
+var move_to_position_test_mission = function(x,y) {
+    
+    let path = URL + "missions/" + mission_id +'/actions'
+    let options = create_options(path, 'GET', null)
+    let on_success = (status, obj) => {
+        for(x in obj) {
+            console.log(obj[x].guid)
+            clear_action_from_test_mission(obj[x].guid)
+        }
+        console.log("CLEARED, begin move")
+        move_to_position(x,y)
+    }
+    console.log("clearing actions from test mission")
+    deleteJSON(options, on_success, error_handler)
+}
 
-/* govlab locations
-"orientation": 0.8326653838157654, 
-        "x": 12.062671661376953, 
-        "y": 15.74654769897461
-*/
+//delete other actions in mission, add new action and add that mission into miss que
+var go_to_position = (x,y) => {
+    console.log("Move to position TEST MISSION")
+    move_to_position_test_mission(x,y)
+}
+
+var go_to_charger = function() {
+    add_mission_to_queue("1f5e67dd-b4ea-11e9-b263-94c691a73681")
+}
+
+var get_all_missions = function() {
+    let path = URL + "missions"
+    let options = create_options(path, 'GET', null)
+    postJSON(options,success_handler, error_handler)
+}
+
+var clear_action_from_test_mission = function(action_id) {
+    let path = URL + "missions/" + mission_id+ '/actions/' + action_id
+
+    let options = create_options(path, 'DELETE', null)
+    postJSON(options,success_handler, error_handler)
+}
+
+var get_test_mission_actions = function() {
+    let path = URL + "missions/" + mission_id +'/actions'
+    let options = create_options(path, 'GET', null)
+    postJSON(options,success_handler, error_handler)
+}
+
+var get_mission_actions = function(mission_guid) {
+    let path = URL + "missions/" + mission_guid +'/actions'
+
+    let options = create_options(path, 'GET', null)
+    postJSON(options,success_handler, error_handler)
+}
+
+var clear_mission_queue = function(on_success) {
+    let path = URL + "mission_queue"
+    let options = create_options(path, 'DELETE', null)
+    deleteJSON(options,on_success, error_handler)
+}
+
+// MARK: Controller logic
+
+const args = require('minimist')(process.argv.slice(2));
+
+if(args.i == "summon") {
+    console.log("GO TO PERSON")
+    let on_success = (status, obj) => {
+        console.log("Mission queue cleared")
+        go_to_position(12.063,15.747)
+    }
+    console.log("Clearing mission queue")
+    clear_mission_queue(on_success)
+} else if (args.i == "charger") {
+    console.log("GO TO CHARGER")
+    let on_success = (status, obj) => {
+        console.log("Mission queue cleared")
+        go_to_charger()
+    }
+    clear_mission_queue(on_success)
+}

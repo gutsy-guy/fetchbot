@@ -2,8 +2,9 @@
 # Sept 13, 2015
 # jburke@ucla.edu 
 
-from subprocess import call
+import subprocess
 import socket, json
+import time
 import os
 
 port = 21234
@@ -19,9 +20,23 @@ while 1:
     tracking_update = json.loads(data)
     if 'pose_tracks' in data:
         person_pose = tracking_update['pose_tracks'][0]
-        #print( json.dumps(json.loads(data), sort_keys=True, indent=4, separators=(',', ': ') )  )
         print( "id:"+str(person_pose['id'])+", x:"+str(person_pose['joints']['HEAD']['x'])+", y:"+str(person_pose['joints']['HEAD']['y'])+", pose: "+person_pose['predicted_pose_name'])
         if person_pose['predicted_pose_name'] == "right_arm_up":
             print("DETECTED")
-            call(["node move_to_x_y.js"],"")
-            break
+            subprocess.call(["node","mir_controller.js","-i","summon"])
+            time.sleep(5)
+            # Close socket and start again
+            s.close()
+            s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+            s.bind(("", port))
+
+            
+        if person_pose['predicted_pose_name'] == "left_arm_pointing":
+            print("DETECTED")
+            subprocess.call(["node","mir_controller.js","-i","charger"])
+            time.sleep(5)
+            # Close socket and start again
+            s.close()
+            s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+            s.bind(("", port))
+
