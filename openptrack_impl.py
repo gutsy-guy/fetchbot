@@ -15,7 +15,7 @@ while 1:
     data, addr = s.recvfrom(8192)
     data = data.rstrip("\0")   # https://github.com/OpenPTrack/open_ptrack/issues/52
     # print( "\n%s:%i - " %  addr)
-    # print( json.dumps(json.loads(data), sort_keys=True, indent=4, separators=(',', ': ') )  )
+    #print( json.dumps(json.loads(data), sort_keys=True, indent=4, separators=(',', ': ') )  )
     
     tracking_update = json.loads(data)
     if 'pose_tracks' in data:
@@ -39,4 +39,3 @@ while 1:
             s.close()
             s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
             s.bind(("", port))
-
