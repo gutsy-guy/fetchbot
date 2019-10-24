@@ -1,0 +1,2 @@
+openpose_ros_msgs:openpose_ros_pkg:skeleton_extract_3d
+-DCATKIN_DEVEL_PREFIX=/home/fetchbot/catkin_ws/devel -DCMAKE_INSTALL_PREFIX=/home/fetchbot/catkin_ws/install -G Unix Makefiles

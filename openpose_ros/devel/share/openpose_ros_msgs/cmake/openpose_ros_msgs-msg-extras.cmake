@@ -1,0 +1,2 @@
+set(openpose_ros_msgs_MESSAGE_FILES "/home/fetchbot/catkin_ws/src/openpose_ros_msgs/msg/BodypartDetection.msg;/home/fetchbot/catkin_ws/src/openpose_ros_msgs/msg/PersonDetection.msg;/home/fetchbot/catkin_ws/src/openpose_ros_msgs/msg/BodypartDetection_3d.msg;/home/fetchbot/catkin_ws/src/openpose_ros_msgs/msg/PersonDetection_3d.msg")
+set(openpose_ros_msgs_SERVICE_FILES "/home/fetchbot/catkin_ws/src/openpose_ros_msgs/srv/GetPersons.srv")

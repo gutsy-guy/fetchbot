@@ -1,0 +1,8 @@
+prefix=/home/fetchbot/catkin_ws/devel
+
+Name: skeleton_extract_3d
+Description: Description of skeleton_extract_3d
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/fetchbot/catkin_ws/devel/lib 
+Requires: 

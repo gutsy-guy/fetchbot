@@ -33,7 +33,12 @@ var postJSON = (options, onResult) => {
         });
         res.on('end', () => {
             console.log('End of response. Response was: "',output,'"');
-            var obj = JSON.parse(output);
+            try {
+                var obj = JSON.parse(output);
+            }
+            catch (error) {
+                console.log(`No JSON obj returned, status code: ${res.statusCode}`)
+            }
             onResult(res.statusCode, obj);
         });
     });
@@ -132,7 +137,7 @@ var move_relative_position = function(){
     postJSON(options,success_handler, error_handler)
 }
 
-var move_to_position  = function(x, y){
+var move_to_position  = function(x, y, o){
     let path = URL + "missions/" + mission_id+ '/actions'
     let parameters = 
         {
@@ -142,7 +147,7 @@ var move_to_position  = function(x, y){
             "parameters":[
                 {"id": "x", "value": x},
                 {"id": "y", "value": y},
-                {"id": "orientation", "value": 0},
+                {"id": "orientation", "value": o},
                 {"id": "retries", "value": 3},
                 {"id": "distance_threshold", "value": 0.3}
             ]
@@ -160,7 +165,7 @@ var move_to_position  = function(x, y){
 var add_test_mission_to_queue = function() {
     var path = URL+'mission_queue'
     var parameters = {
-        "mission_id": "3f9074ba-bf29-11e9-b263-94c691a73681",
+        "mission_id": mission_id,
     }
 
     let options = create_options(path, 'POST', parameters)
@@ -177,26 +182,27 @@ var add_mission_to_queue = function(mission_guid) {
     postJSON(options,success_handler, error_handler)
 }
 
-var move_to_position_test_mission = function(x,y) {
+var move_to_position_test_mission = function(x,y,o) {
     
     let path = URL + "missions/" + mission_id +'/actions'
     let options = create_options(path, 'GET', null)
     let on_success = (status, obj) => {
-        for(x in obj) {
-            console.log(obj[x].guid)
-            clear_action_from_test_mission(obj[x].guid)
+        for(i in obj) {
+            console.log("Guid found: " + obj[i].guid)
+            clear_action_from_test_mission(obj[i].guid)
         }
         console.log("CLEARED, begin move")
-        move_to_position(x,y)
+        move_to_position(x,y,o)
     }
     console.log("clearing actions from test mission")
-    deleteJSON(options, on_success, error_handler)
+    //deleteJSON(options, on_success, error_handler)
+    getJSON(options, on_success, error_handler)
 }
 
 //delete other actions in mission, add new action and add that mission into miss que
-var go_to_position = (x,y) => {
+var go_to_position = (x,y,o) => {
     console.log("Move to position TEST MISSION")
-    move_to_position_test_mission(x,y)
+    move_to_position_test_mission(x,y,o)
 }
 
 var go_to_charger = function() {
@@ -211,7 +217,6 @@ var get_all_missions = function() {
 
 var clear_action_from_test_mission = function(action_id) {
     let path = URL + "missions/" + mission_id+ '/actions/' + action_id
-
     let options = create_options(path, 'DELETE', null)
     postJSON(options,success_handler, error_handler)
 }
@@ -243,7 +248,7 @@ if(args.i == "summon") {
     console.log("GO TO PERSON")
     let on_success = (status, obj) => {
         console.log("Mission queue cleared")
-        go_to_position(12.063,15.747)
+        go_to_position(12.063,15.747,0)
     }
     console.log("Clearing mission queue")
     clear_mission_queue(on_success)
@@ -251,7 +256,8 @@ if(args.i == "summon") {
     console.log("GO TO CHARGER")
     let on_success = (status, obj) => {
         console.log("Mission queue cleared")
-        go_to_charger()
+        go_to_position(17.501,17.735,90) // infront of rosie
+	    //go_to_charger()
     }
     clear_mission_queue(on_success)
 }
