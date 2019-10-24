@@ -1,0 +1,37 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+
+{% block main %}
+<div class="container">
+    <h2>Control Dashboard</h2>
+    <div class="row d-flex justify-content-around">
+        <div class="statuscard card">
+            <div class="card-body">
+                <div id="trip-button" class="container btn btn-success">
+                    <div>
+                        <p id="status-card-name" class="text-wrap">MiR 100</p>
+                    </div>
+                </div>
+                <h5 class="card-title">STATUS: CHARGING</h5>
+                <h5 class="card-title">AWAITING ORDER</h5>
+                <h5 class="card-title">X: 12.02, Y: 17.88</h5>
+                <h5 class="card-title">ORIENTATION: 83.09*</h5>
+            </div>
+        </div>
+        <div class="statuscard card">
+            <div class="card-body">
+                <div id="trip-button" class="container btn btn-success">
+                    <div>
+                        <p id="status-card-name" class="text-wrap">MiR 100</p>
+                    </div>
+                </div>
+                <h5 class="card-title">STATUS: CHARGING</h5>
+                <h5 class="card-title">AWAITING ORDER</h5>
+                <h5 class="card-title">X: 12.02, Y: 17.88</h5>
+                <h5 class="card-title">ORIENTATION: 83.09*</h5>
+            </div>
+        </div>
+    </div>
+</div>  
+
+{% endblock %}
