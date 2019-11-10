@@ -2,23 +2,33 @@
 ##### Built for the MiR 100
 
 ### Requirements
+- 30 GB free space on host machine
 - Ubuntu 16.04
 - Nvidia graphics card (CUDA)
 - Kinect Camera
-- Running OpenPTrack Docker image (Installation guide - https://github.com/OpenPTrack/open_ptrack_v2/wiki/Docker-Images)
 
 ### Dependencies
 - Python
 - Node JS
+- Docker
+- Nvidia-384
+- Nvidia-Docker 2
+
+## Docker Setup
+1. Clone the repo and start up a docker container `chmod +x start_human_aware_environment\n./start_human_aware_environment`
+
+## Manual Docker Build (Optional)
+1. `sudo docker build -t human_aware_environment .`
+
+## Development Environment Setup
+1. use the run_single_camera script
 
 ## Summoning the MiR
-1. Start up the single camera tracking docker image
-"./run_single_camera"
+1. Start the docker container using the provided script `chmod +x start_human_aware_environment\n./start_human_aware_environment`
 
-2. Within the docker image, begin the human/pose tracking components
-"roslaunch tracking single_camera_tracking_node.launch enable_pose:=true enable_people_tracking:=true enable_object:=false"
+2. Within the docker container terminal, execute the start script `./HAE/docker/start.sh` 
 
-3. Run the python script listener
-"python openptrack_impl.py"
+3. Raise your right arm to summon the MiR100 to the GovLab. Left arm pointing will send the MiR100 to the charger.
 
-4. Raise your right arm to summon the MiR to the GovLab.
+#### Notes
+- you can remove existing human_aware_environment containers using `./start_human_aware_environment -r`

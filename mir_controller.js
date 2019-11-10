@@ -256,8 +256,8 @@ if(args.i == "summon") {
     console.log("GO TO CHARGER")
     let on_success = (status, obj) => {
         console.log("Mission queue cleared")
-        go_to_position(17.501,17.735,90) // infront of rosie
-	    //go_to_charger()
+        //go_to_position(17.501,17.735,90) // infront of rosie
+	    go_to_charger()
     }
     clear_mission_queue(on_success)
 }

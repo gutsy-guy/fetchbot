@@ -1,9 +1,9 @@
 #!/bin/bash
 
-### This script is largely based off run_single_camera, found within the open_ptrack_docker_config folder;
-### single_camera_tracking/run_single_camera. Only minor modifications have been made to change container and
-### image names in order to run the docker image built ontop of open_ptrack. Credit goes to the authors listed
-### in the following repository - https://github.com/OpenPTrack/open_ptrack_docker_config
+# This script is largely based off run_single_camera, found within the open_ptrack_docker_config folder:
+# open_ptrack_docker_config/run_single_camera. Only minor modifications have been made to change container and
+# image names in order to run the fetchbot docker image built ontop of the open_ptrack base image. 
+# Credit goes to the authors listed in the following repository - https://github.com/OpenPTrack
 
 container_name="fetchbot"
 image_name="human_aware_environment"

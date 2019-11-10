@@ -1,12 +1,13 @@
 #!/bin/bash
 
-### This script is largely based off run_single_camera, found within the open_ptrack_docker_config folder;
-### single_camera_tracking/run_single_camera. Only minor modifications have been made to change container and
-### image names in order to run the docker image built ontop of open_ptrack. Credit goes to the authors listed
-### in the following repository - https://github.com/OpenPTrack/open_ptrack_docker_config
+# This script comes from https://github.com/OpenPTrack as part of 
+# their process to run a single_camera environment docker container. 
+# This container is used for development, avoiding docker rebuilds. 
+# More details can be found below:
+# https://github.com/OpenPTrack/open_ptrack_v2/wiki/Docker-Images
 
-container_name="fetchbot"
-image_name="human_aware_environment"
+container_name="open_ptrack_single_camera"
+image_name="openptrack/open_ptrack"
 cd $(dirname $0)
 if [ $# -eq 0 ]; then
     if [ "$(sudo docker ps -a | grep $container_name)" ]; then
@@ -29,11 +30,11 @@ if [ $# -eq 0 ]; then
             -e DISPLAY \
             --env QT_X11_NO_MITSHM=1 \
             -v /tmp/.X11-unix:/tmp/.X11-unix \
-            --mount type=bind,source="$(pwd)"/open_ptrack_config/detection/launch/,destination=/root/workspace/ros/src/open_ptrack/detection/launch/ \
-            --mount type=bind,source="$(pwd)"/open_ptrack_config/detection/conf/,destination=/root/workspace/ros/src/open_ptrack/detection/conf/ \
-            --mount type=bind,source="$(pwd)"/open_ptrack_config/tracking/launch/,destination=/root/workspace/ros/src/open_ptrack/tracking/launch/ \
-            --mount type=bind,source="$(pwd)"/open_ptrack_config/tracking/conf/,destination=/root/workspace/ros/src/open_ptrack/tracking/conf/ \
-            --mount type=bind,source="$(pwd)"/open_ptrack_config/yolo_detector/launch/,destination=/root/workspace/ros/src/open_ptrack/yolo_detector/launch/ \
+            --mount type=bind,source=$(pwd)/open_ptrack_config/detection/launch/,destination=/root/workspace/ros/src/open_ptrack/detection/launch/ \
+            --mount type=bind,source=$(pwd)/open_ptrack_config/detection/conf/,destination=/root/workspace/ros/src/open_ptrack/detection/conf/ \
+            --mount type=bind,source=$(pwd)/open_ptrack_config/tracking/launch/,destination=/root/workspace/ros/src/open_ptrack/tracking/launch/ \
+            --mount type=bind,source=$(pwd)/open_ptrack_config/tracking/conf/,destination=/root/workspace/ros/src/open_ptrack/tracking/conf/ \
+            --mount type=bind,source=$(pwd)/open_ptrack_config/yolo_detector/launch/,destination=/root/workspace/ros/src/open_ptrack/yolo_detector/launch/ \
             --net=host \
             --device /dev/bus/usb:/dev/bus/usb \
             --name $container_name \
@@ -55,7 +56,7 @@ else
                     sudo docker stop $container_name
                 fi
             ;;
-            \? ) printf "Usage: ./start_human_aware_env.sh [-r -s]\n-r remove \n-s stop"
+            \? ) printf "Usage: ./run_singlecamera.sh [-r -s]\n-r remove \n-s stop"
             ;;
         esac
     done
