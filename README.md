@@ -20,7 +20,8 @@
 `./start_human_aware_environment`
 
 ## Manual Docker Build (Optional)
-1. `sudo docker build -t fetchbot_human_aware_environment .`
+1. Navigate to the docker/ directory and run `sudo docker build -t fetchbot_human_aware_environment .`
+2. Edit line 9 in the human aware environment/start_human_aware_environment script, to be `image_name=fetchbot_human_aware_environment`
 
 ## Development Environment Setup
 1. use the run_single_camera script
