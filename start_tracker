@@ -1,6 +1,0 @@
-#!/bin/bash
-
-# run openptrack docker with single camera setup and start openptrack docker listener. Then run single camera 
-./open_ptrack_docker_config/single_camera_tracking/run_single_camera & python openptrack_impl.py 
-
-docker exec -it open_ptrack_single_camera roslaunch tracking single_camera_tracking_node.launch enable_pose:=true enable_people_tracking:=true enable_object:=false
