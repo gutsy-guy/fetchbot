@@ -6,7 +6,7 @@
 ### in the following repository - https://github.com/OpenPTrack/open_ptrack_docker_config
 
 container_name="fetchbot"
-image_name="human_aware_environment"
+image_name="fetchbot_human_aware_environment"
 cd $(dirname $0)
 if [ $# -eq 0 ]; then
     if [ "$(sudo docker ps -a | grep $container_name)" ]; then
