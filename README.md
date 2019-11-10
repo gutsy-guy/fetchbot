@@ -1,4 +1,5 @@
-# Fetchbot - MiR 100 Human Aware Assistant
+# Fetchbot - Human Aware Environment
+##### Built for the MiR 100
 
 ### Requirements
 - Ubuntu 16.04
