@@ -15,7 +15,9 @@
 - Nvidia-Docker 2
 
 ## Docker Setup
-1. Clone the repo and start up a docker container `chmod +x start_human_aware_environment\n./start_human_aware_environment`
+1. Clone the repo and start up a docker container (will use the public docker image https://cloud.docker.com/repository/registry-1.docker.io/poppipi/fetchbot_human_aware_environment)
+`chmod +x start_human_aware_environment `
+`./start_human_aware_environment`
 
 ## Manual Docker Build (Optional)
 1. `sudo docker build -t human_aware_environment .`
