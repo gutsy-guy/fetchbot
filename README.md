@@ -1,5 +1,8 @@
 # Fetchbot - Human Aware Environment
 ##### Built for the MiR 100
+The Human Aware Environment (HAE) project aims to enable human awareness in a MiR100 robot, to allow interaction directly between an operator and machine. The HAE is a combination of different sensors and coding implementations to enable the MiR100 to interact with and be aware of humans within a set environment.
+
+A demonstration can be viewed here: https://www.youtube.com/watch?v=2XB5GXtKr6w&feature=youtu.be
 
 ### Requirements
 - 30 GB free space on host machine
