@@ -38,11 +38,13 @@ This repository contains three seperate approaches:
 1. Start our docker container using the provided script (will use our public docker image https://cloud.docker.com/repository/registry-1.docker.io/poppipi/fetchbot_human_aware_environment)  
 `chmod +x start_human_aware_environment`  
 `./start_human_aware_environment`
-2. Within the docker container terminal, execute the start script  
+2. Ensure the space directly infront of the KinectV2 camera is clear of obstacles and people (About 1-2 meters). Within the docker container terminal, execute the start script  
 `./HAE/docker/start.sh`
 3. If the OpenPTrack service has successfully started you should see output similar to below:   
 ![Terminal Output OpenPTrack](/images/openptrack_start_success.png)
-3. Facing the KinectV2 camera, raise your right arm to summon the MiR100 to the GovLab. Left arm pointing will send the MiR100 to the charger.
+4. RViz well then launch shortly after, at which point you may step infront of the camera to ensure skeleton detection is functioning:  
+![RViz screenshot](/images/openptrack_rviz.png)
+5. Facing the KinectV2 camera, raise your right arm to summon the MiR100 to the GovLab. Left arm pointing will send the MiR100 to the charger.
 
 ### Development Environment Setup
 1. Use the provided run_single_camera script to run OpenPTrack seperate to interface and controller scripts    
