@@ -6,10 +6,13 @@ A demonstration can be viewed here: https://www.youtube.com/watch?v=2XB5GXtKr6w&
 
 This repository contains three seperate approaches:
 - OpenPTrack with Kinect and MiR100 REST API (Main Implementation)
-- OpenPose ROS wrapper with MiR100 robot (Incomplete Implementation)
-- Human Aware Environment front end web interface (Proof of concept)
+- OpenPose ROS wrapper with onboard MiR100 sensors (Incomplete Implementation - located within the openpose_ros/ directory)
+- Human Aware Environment front end web interface (Proof of concept - located within the haed/ directory)
 
 ## OpenPTrack with Kinect and MiR100 REST API
+The purpose of the human observation environment is to monitor in real time locations and poses of each individual person in the local environment and subsequently summon and dismiss ‘Blue’, the MiR 100 bot, to and from an individual’s location when the ‘command pose’ is recognised.
+
+OpenPTrack is an open source library for, amongst other things, person tracking and pose annotation in real time via an RGD-D camera. A python interface is used to take interpreted pose annotations and issue specific commands via the MiR100 REST API to summon and dismiss the robot.
 
 #### Requirements
 - 30 GB free space on host machine
@@ -83,3 +86,26 @@ Z. Cao, T. Simon, S. E. Wei, and Y. Sheikh, 2016. Realtime multi-person 2d pose 
 T. Simon, H. Joo, I. A. Matthews, and Y. Sheikh, 2017, July. Hand Keypoint Detection in Single Images Using Multiview Bootstrapping. In CVPR (Vol. 1, p. 2).
 
 [ObjectTracking] Y. Zhao, M. Carraro, M. Munaro and E. Menegatti, Fast Multiple Object Tracking in RGB-D Camera Networks, in Intelligent Robots and Systems (IROS), 2017 IEEE/RSJ International Conference on, IEEE, 2017.
+
+## OpenPose ROS wrapper with onboard MiR100 sensors
+
+## Human Aware Environment front end web interface
+A Django web interface has been provided as a proof of concept to demonstrate how one may go about integrating the existing OpenPTrack implementation with a web based application. Django provides local web server functionality, which this user guide will run to display a static web-page mock up of the proposed functionality. Refer to the notes section for possible future implentations.
+
+#### Dependencies
+- Django
+- Python 3
+- (Recommended) Virtual env
+
+### Host Setup
+1. (Recommended) Start a virtual environment with python 3 within the haed/ directed and install the dependencies listed above  
+`virtualenv -p python3 venv`  
+`source venv/bin/activate`  
+`pip install Django`
+2. Run the local development server (still within the haed/ directory)   
+`python manage.py runserver`
+3. If successful, navigate to 127.0.0.1:8000 to view the static page
+
+### Notes for Developers
+- You can now edit the views.py script, within hard/dashboard/, to call or run the openptrack_impl.py implementation directly. 
+- A wireframe pdf has been included within the haed/ directory, as a visualization of what a complete implementation may look like.
