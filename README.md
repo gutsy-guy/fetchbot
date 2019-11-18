@@ -109,7 +109,7 @@ Please note, this implementation has not been completed and is currently a work 
 `rosrun openpose_ros_pkg openpose_ros_node`
 If the initialization was successful, when “rostopic echo <name of the ROS topic>” command is run, it should show the “openpose_ros” node is subscribed to the topic.
   
-#### Notes
+### Notes for Developers
 - Regading Caffe: If encountered any error for Caffe (e.g. missing, can’t create), run the following command to initialise all submodules:
 `git submodule update --init --recursive --remote`
 - Regarding PCL: If the installed package contains contain lots of missing libraries, instead of installing each missing one, install the stable version. For this project, pcl-1.7.2 was used.
