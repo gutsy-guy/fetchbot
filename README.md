@@ -88,6 +88,36 @@ T. Simon, H. Joo, I. A. Matthews, and Y. Sheikh, 2017, July. Hand Keypoint Detec
 [ObjectTracking] Y. Zhao, M. Carraro, M. Munaro and E. Menegatti, Fast Multiple Object Tracking in RGB-D Camera Networks, in Intelligent Robots and Systems (IROS), 2017 IEEE/RSJ International Conference on, IEEE, 2017.
 
 ## OpenPose ROS wrapper with onboard MiR100 sensors
+The main function of this feature is to enable the MiR100 to detect and interact with humans directly, i.e. using the on board sensors available.
+
+[OpenPose ROS wrapper](https://github.com/stevenjj/openpose_ros) for [OpenPose](https://github.com/CMU-Perceptual- Computing-Lab/openpose) combines Robot Operating System (ROS) with OpenPose nodes. OpenPose is used to get real-time multi-person 2D pose data from a RGB camera. 3D pose estimation is then achieved with 3D extractor node implemented in the OpenPose ROS package - through the projection of OpenPose’s 2D pose data onto the point-cloud of the depth image.
+
+Please note, this implementation has not been completed and is currently a work in progress due to issues with the openpose_ros wrapper in its current form. The directory has been left as a reference for future developers, along with notes that we found useful during compiling and attempting to run OpenPose using the MiR100's RGB-D camera node output.
+
+#### Dependencies
+- OpenPose ([openpose @ a1e0a5f](https://github.com/CMU-Perceptual-Computing-Lab/openpose/tree/a1e0a5f4136e702b5731a268c2993fb75ca4753c))
+- PointCloud - PCL ([installation](http://pointclouds.org/documentation/tutorials/compili ng_pcl_posix.php))
+- OpenCV 3
+- ROS (Instructions below assume that ROS Lunar has been installed prior, you are not restricted to this release)
+
+### Setup
+- Clone the [OpenPose ROS wrapper](https://github.com/stevenjj/openpose_ros) and attempt to follow the installation process, refer to the notes section for help in various circumstances
+- Inside openpose_ros_node_firephix.cpp, replace the default “camera topic” with the ROS topic that’s publishing RGB data.
+  - To find out the topics and data that topic is publishing, run `rostopic list` and `rostopic echo <name of the ROS topic>`.
+  - In the case of MiR’s robot, `/camera_floor_left/driver/color/image_raw` or `/camera_floor_right/driver/color/image_raw`
+- Initialize a service node which will act as the listener to the rostopic  
+`rosrun openpose_ros_pkg openpose_ros_node`
+If the initialization was successful, when “rostopic echo <name of the ROS topic>” command is run, it should show the “openpose_ros” node is subscribed to the topic.
+  
+#### Notes
+- Regading Caffe: If encountered any error for Caffe (e.g. missing, can’t create), run the following command to initialise all submodules:
+`git submodule update --init --recursive --remote`
+- Regarding PCL: If the installed package contains contain lots of missing libraries, instead of installing each missing one, install the stable version. For this project, pcl-1.7.2 was used.
+- Regarding ROS if error message received when attempting to build the workspace: If there’s an error message complaining that ROS is not running/ installed, source setup file by running `source /opt/ros/lunar/setup.bash`
+- Regarding OpenPose if an error message is received when attempting to compile: if an error for OpenPose received (OpenPose not found/ OpenPose can’t be started or not compatible), perform the following:
+  - Rollback to OpenPose folder from specific git commit (a1e0a5f413) 
+  - Uninstall OPCV2 and replace with OPENCV3
+- Regarding CMakeList linking errors: If there’s linking error in CMakeList in openpose_ros_pkg and can’t find the packages, add OpenCV to find_package and target_link_libraries as mentioned in https://github.com/stevenjj/openpose_ros/issues/12 (see makino-ryota comment from 22 Jan)
 
 ## Human Aware Environment front end web interface
 A Django web interface has been provided as a proof of concept to demonstrate how one may go about integrating the existing OpenPTrack implementation with a web based application. Django provides local web server functionality, which this user guide will run to display a static web-page mock up of the proposed functionality. Refer to the notes section for possible future implentations.
