@@ -11,7 +11,6 @@ This repository contains three seperate approaches:
 
 ## OpenPTrack with Kinect and MiR100 REST API
 
-### General Setup
 #### Requirements
 - 30 GB free space on host machine
 - Ubuntu 16.04
@@ -41,6 +40,8 @@ This repository contains three seperate approaches:
 `./start_human_aware_environment`
 2. Within the docker container terminal, execute the start script  
 `./HAE/docker/start.sh`
+3. If the OpenPTrack service has successfully started you should see output similar to below:   
+![Terminal Output OpenPTrack](/images/openptrack_start_success.png)
 3. Facing the KinectV2 camera, raise your right arm to summon the MiR100 to the GovLab. Left arm pointing will send the MiR100 to the charger.
 
 ### Development Environment Setup
